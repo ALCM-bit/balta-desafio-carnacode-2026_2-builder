@@ -1,14 +1,18 @@
-using DesignPatternChallenge;
 using ReportGenerator.Interfaces;
-using ReportGenerator.Models;
 using SalesReport = ReportGenerator.Models.SalesReport;
 
 namespace ReportGenerator.Builders;
 
 public class SalesReportBuilder : ISalesReportBuilder
 {
-    private readonly SalesReport _salesReport = new SalesReport();
-    public SalesReport Build() => _salesReport;
+    private SalesReport _salesReport = new SalesReport();
+
+    public SalesReport Build()
+    {
+        var report = _salesReport;
+        _salesReport = new SalesReport();
+        return report;
+    }
     
     public ISalesReportBuilder WithTitle(string title)
     {
@@ -36,7 +40,7 @@ public class SalesReportBuilder : ISalesReportBuilder
 
     public ISalesReportBuilder WithHeader(string headerText)
     {
-        _salesReport.IncludeFooter = true;
+        _salesReport.IncludeHeader = true;
         _salesReport.HeaderText = headerText;
         return this;
     }
